@@ -1,0 +1,15 @@
+*.iml
+.gradle
+.idea
+build
+classes
+out
+target
+install
+*~
+\#*#
+.#*
+log
+install
+dashboard
+
