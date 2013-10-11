@@ -1,0 +1,19 @@
+description = 'Dashboard App'
+
+import org.apache.tools.ant.filters.*
+
+apply plugin: 'application'
+
+mainClassName = 'com.scalablelabs.dashboard.app.Main'
+
+dependencies {
+    compile project(':scalablelabs-dashboard-core')
+}
+
+processResources {
+    filter ReplaceTokens, tokens: [
+            built: System.currentTimeMillis().toString(),
+            version: project.version
+    ]
+}
+

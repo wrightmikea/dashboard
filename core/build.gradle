@@ -1,0 +1,6 @@
+description = 'Dashboard Core'
+
+dependencies {
+    compile project(':scalablelabs-dashboard-api')
+}
+

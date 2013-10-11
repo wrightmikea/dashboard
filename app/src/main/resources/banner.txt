@@ -1,0 +1,20 @@
+/***
+ *
+ * Scalable Labs Hypermedia Meta Application
+ *
+ *     ______   _______  _______  __   __  _______  _______  _______  ______    ______  
+ *    |      | |   _   ||       ||  | |  ||  _    ||       ||   _   ||    _ |  |      | 
+ *    |  _    ||  |_|  ||  _____||  |_|  || |_|   ||   _   ||  |_|  ||   | ||  |  _    |
+ *    | | |   ||       || |_____ |       ||       ||  | |  ||       ||   |_||_ | | |   |
+ *    | |_|   ||       ||_____  ||       ||  _   | |  |_|  ||       ||    __  || |_|   |
+ *    |       ||   _   | _____| ||   _   || |_|   ||       ||   _   ||   |  | ||       |
+ *    |______| |__| |__||_______||__| |__||_______||_______||__| |__||___|  |_||______| 
+ *                                                                                      
+ *                                                                                      
+ * Dashboard Application for Scalable Hypermedia Application Builds, Ops, Analysis, Refactoring, and Debugging
+ *
+ * Copyright (c) 2013 Michael A. Wright.  All Rights Reserved.
+ * Apache License Version 2.0
+ *
+ */
+

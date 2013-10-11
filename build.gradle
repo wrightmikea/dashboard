@@ -1,0 +1,63 @@
+description = 'Scalable Labs Hypermedia Meta App'
+// Dashboard App for Scalable Hypermedia 
+// Builds, Ops, Analysis, Refactoring, and Debugging
+
+apply plugin: 'maven'
+
+subprojects {
+    apply plugin: 'java'
+    sourceCompatibility = 1.7
+    targetCompatibility = 1.7
+
+    group = 'com.scalablelabs.dashboard'
+    version = '1.0-SNAPSHOT'
+
+    configurations.all {
+        // check for updates every build
+        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+    }
+
+    repositories {
+        mavenCentral()
+        maven {
+            url "$System.env.PLUOT_REPO_URL"
+//                url "http://nexus:8081/nexus/content/repositories/snapshots-dev"
+//                url "file:///home/mike/pluot-repo"
+        }
+
+    }
+
+    dependencies {
+        testCompile group: 'junit', name: 'junit', version: '4.11'
+        testCompile group: 'org.easytesting', name: 'fest-assert', version: '1.4'
+        compile group: 'com.scalablelabs.pluot', name: 'scalablelabs-pluot-api', version: '1.0-SNAPSHOT'
+        compile group: 'com.scalablelabs.pluot', name: 'scalablelabs-pluot-app', version: '1.0-SNAPSHOT'
+        compile group: 'com.scalablelabs.pluot', name: 'scalablelabs-pluot-core', version: '1.0-SNAPSHOT'
+        compile group: 'com.scalablelabs.pluot', name: 'scalablelabs-pluot-repo', version: '1.0-SNAPSHOT'
+    }
+
+    sourceSets {
+        main {
+            java {
+                srcDir 'src/main/java'
+            }
+            resources {
+                srcDir 'src/main/resources'
+            }
+        }
+        test {
+            java {
+                srcDir 'src/test/java'
+            }
+            resources {
+                srcDir 'src/test/resources'
+            }
+        }
+    }
+    buildscript {
+        repositories {
+            mavenCentral()
+        }
+    }
+
+}

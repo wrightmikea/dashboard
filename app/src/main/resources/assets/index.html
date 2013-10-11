@@ -1,0 +1,127 @@
+<html xmlns="http://www.w3.org/1999/html">
+<!--
+   Copyright [2013] [Michael A. Wright]
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<head>
+    <title>Dashboard App</title>
+
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css">
+</head>
+<body>
+<h4>Scalable Labs Hypermedia Meta Application (Dashboard)</h4>
+
+<h2>New App</h2>
+<p>
+
+<form id='createApp' action="/api/v1/apps/" method="POST">
+    <label for="description">Description</label>
+    <input type="text" name="description" id="description" value="form-post" />
+    <input type="submit" value="Create App"/>
+</form>
+<span id="messageSent" style='display:none'>
+    <small>App Create Requested...</small>
+    <span id="result">...</span>
+</span>
+
+
+</p>
+
+<hr />
+
+<div class="btn-toolbar">
+    <button class="btn" id="apps">Refresh Apps List</button>
+</div>
+
+<h3 class="appType">No Apps To Display</h3>
+
+<table class="table app">
+</table>
+
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
+<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.1.0/moment.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/1.3.1/lodash.js"></script>
+<script src="http://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
+
+<script type="text/javascript">
+//    var jqxhr = $.ajax( "/api/v1/apps" )
+//            .done(function() { alert("a success"); })
+//            .fail(function() { alert("a error"); })
+//            .always(function() { alert("a complete"); });
+    function submitClick(e)
+    {
+        e.preventDefault();
+        $("#messageSent").show();
+        $("#messageSent").slideDown("slow");
+        description=$("#description").val();
+        var request = $.ajax({
+            url: "/api/v1/apps",
+            type: "POST",
+            data: {"description" : description + " " + new Date()},
+            dataType: "text" // 201 created returns empty result
+        });
+        request.done(function(msg) {
+            $("#result").html( msg );
+            $("#apps").trigger('click');
+        });
+        request.fail(function(jqXHR, textStatus) {
+            alert( "Request failed: " + textStatus );
+        });
+        setTimeout('$("#messageSent").slideUp();/*$("#createApp").slideDown("slow")*/', 1000);
+        return false;
+
+//        $.post("/api/v1/apps",{"description":description + " " + new Date()},function(result){
+//            alert("result=" + result);
+//             $("#result").html(result);
+//            $("#apps").trigger('click');
+//            alert("clicked");
+//        }).error(function (error) {
+//                    alert("onerror " + error);
+//                });
+//        setTimeout('$("#messageSent").slideUp();/*$("#createApp").slideDown("slow")*/', 1000);
+//        return false;
+    }
+
+    $(document).ready(function () {
+//        $('#createApp').click(submitClick);
+        $('#createApp').submit(submitClick);
+        $('#apps').click(function () {
+            $.getJSON('/api/v1/apps', function (data) {
+                var html = "<table class=\"table table-striped table-hover table-border sortable app\"><thead><tr><th>Id</th><th>Description</th><th>TBD3</th>" +
+                        "<th>TBD4</th><th>TBD5</th><th>TBD6</th></tr></thead><tbody>";
+                var sortedData = data.sort(function compare (a, b) {
+                    if (a['created'] < b ['created']) {
+                        return -1;
+                    } else if (a['created'] > b['created']) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                });
+                _(sortedData).forEach(function (app) {
+                    row = "<tr><td>" + app.id_pk + "</td><td>" + app.description + "</td><td>" + "-3-" + "</td><td>" + "-4-" +
+                            "</td><td>" + "-5-" + "</td><td>" + moment(app.created).fromNow() + "</td></tr>";
+                    html += row;
+                });
+                $('.appType').replaceWith("<h3 class=\"appType\">Apps</h3>");
+                $('.app').replaceWith(html + "</tbody></table>");
+            });
+        });
+    });
+
+
+</script>
+</body>
+</html>

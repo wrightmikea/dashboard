@@ -1,0 +1,4 @@
+http:
+  rootPath: /api/v1/*
+  port: 9716
+  adminPort: 9717
